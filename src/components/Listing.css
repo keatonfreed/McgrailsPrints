@@ -43,6 +43,10 @@
     transition: bottom 200ms ease-in-out;
 }
 
+.Listing .ListingDetails * {
+    cursor: text
+}
+
 @media (max-width:812px) {
     .Listing .ListingDetails {
         font-size: 1.8vw;
