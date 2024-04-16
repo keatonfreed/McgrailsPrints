@@ -1,0 +1,57 @@
+:root {
+    --platinum: hsl(184, 19%, 83%);
+    --non-photo-blue: hsl(183, 40%, 72%);
+    --non-photo-blue-2: hsl(186, 52%, 67%);
+    --cerulean: hsl(195, 100%, 33%);
+    --prussian-blue: hsl(199, 100%, 14%);
+
+    --rich-black: #03071eff;
+    --chocolate-cosmos: #370617ff;
+    --rosewood: #6a040fff;
+    --penn-red: #9d0208ff;
+    --engineering-orange: #d00000ff;
+    --sinopia: #dc2f02ff;
+    --persimmon: #e85d04ff;
+    --princeton-orange: #f48c06ff;
+    --orange-web: #faa307ff;
+    --selective-yellow: #ffba08ff;
+
+    /* --primaryDark: var(--engineering-orange);
+    --primary: var(--sinopia);
+    --primaryLight: var(--persimmon); */
+
+    --primaryDark: var(--prussian-blue);
+    --primary: var(--cerulean);
+    --primaryLight: var(--non-photo-blue-2);
+
+
+    --secondary: var(--prussian-blue);
+    --secondaryLight: var(--indigo-dye);
+    --secondaryDark: var(--indigo-dye);
+
+    --neutralDarker: var(--prussian-blue);
+    --neutralDark: var(--cerulean);
+    --neutral: var(--platinum);
+    /* --neutral: hsl(18, 97%, 85%); */
+    --neutralLight: var(--non-photo-blue-2);
+    --neutralLighter: var(--non-photo-blue);
+}
+
+.App {
+    min-height: 100%;
+    background-color: var(--neutral);
+}
+
+@media only screen and (min-width:450px) {
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--neutralDark);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar {
+        background-color: var(--neutral);
+        border-left: 2px solid var(--neutralDark);
+    }
+}
+
+@media (max-width:395px) {}
