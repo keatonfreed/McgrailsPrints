@@ -16,6 +16,8 @@
     /* box-shadow: inset 0px 0px 10px 1px hsla(0, 50%, 0%, 1); */
     box-shadow: inset 0px 0px 10px 1px hsl(200, 100%, 15%);
     overflow: hidden;
+
+    background-color: var(--neutralLight);
 }
 
 .Listing .ListingDetails {

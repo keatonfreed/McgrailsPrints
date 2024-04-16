@@ -36,9 +36,9 @@ function Landing() {
             <div className='Listings'>
                 {listings.length ? listings.map(listing =>
                     <Listing listing={listing} key={listing.etsy_url} />
-                ) : Array(6).fill().map((placeholder, index) => {
+                ) : Array(6).fill({}).map((placeholder, index) =>
                     <Listing listing={placeholder} key={index} />
-                })}
+                )}
             </div>
         </div>
     )
