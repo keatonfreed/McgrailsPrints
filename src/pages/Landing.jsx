@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import "pages/Landing.css"
 import banner from "assets/mainbanner.png"
-import useScrollPosition from "hooks/useScrollPosition"
 import Listing from 'components/Listing'
 
 
@@ -9,7 +8,17 @@ function Landing() {
 
     // const apiKey = https://openapi.etsy.com/v2/listings/active?api_key=prj207rtzok77jrk84zfv90f
 
-    const scrollHeight = useScrollPosition()
+    // const scrollHeight = useScrollPosition()
+    let root = document.querySelector("#root")
+    const parallaxRef = useRef()
+
+    useEffect(() => {
+        const paraHandler = () => { parallaxRef.current.style.transform = `translateY(${root.scrollTop / 2}px)` }
+        root.addEventListener('scroll', paraHandler)
+        return () => {
+            root.removeEventListener('scroll', paraHandler)
+        }
+    }, [root])
 
     const [listings, setListings] = useState([]);
 
@@ -31,7 +40,7 @@ function Landing() {
     return (
         <div className='Landing'>
             <div className="MainBanner">
-                <div className="MainBannerImg"><img src={banner} alt="Banner" style={{ "top": scrollHeight }} /></div>
+                <div className="MainBannerImg"><img src={banner} alt="Banner" ref={parallaxRef} /></div>
                 <div className='MainBannerBorder'></div>
             </div>
             <div className='Listings'>
