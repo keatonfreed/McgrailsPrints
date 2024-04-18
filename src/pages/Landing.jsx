@@ -23,7 +23,7 @@ function Landing() {
     const [listings, setListings] = useState([]);
 
     useEffect(() => {
-        fetch('/output.json')
+        fetch('./output.json')
             .then(response => response.json())
             .then(data => {
                 console.log(data)
