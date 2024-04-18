@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/McgrailsPrints/static/css/main.935929b0.css",
-    "main.js": "/McgrailsPrints/static/js/main.5360c058.js",
+    "main.js": "/McgrailsPrints/static/js/main.ea85994b.js",
     "static/media/mainbanner.png": "/McgrailsPrints/static/media/mainbanner.bf00308d11ec31394224.png",
     "index.html": "/McgrailsPrints/index.html",
     "main.935929b0.css.map": "/McgrailsPrints/static/css/main.935929b0.css.map",
-    "main.5360c058.js.map": "/McgrailsPrints/static/js/main.5360c058.js.map"
+    "main.ea85994b.js.map": "/McgrailsPrints/static/js/main.ea85994b.js.map"
   },
   "entrypoints": [
     "static/css/main.935929b0.css",
-    "static/js/main.5360c058.js"
+    "static/js/main.ea85994b.js"
   ]
 }
