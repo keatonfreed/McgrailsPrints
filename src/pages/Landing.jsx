@@ -4,6 +4,7 @@ import banner from "assets/mainbanner.png"
 import useScrollPosition from "hooks/useScrollPosition"
 import Listing from 'components/Listing'
 
+
 function Landing() {
 
     // const apiKey = https://openapi.etsy.com/v2/listings/active?api_key=prj207rtzok77jrk84zfv90f
