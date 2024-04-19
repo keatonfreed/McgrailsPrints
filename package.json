@@ -1,7 +1,6 @@
 {
   "name": "mcgrailsprints",
   "version": "0.1.0",
-  "homepage": "https://keatonfreed.github.io/McgrailsPrints",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
@@ -32,8 +31,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "gh-pages": "^6.1.1"
   }
 }
