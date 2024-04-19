@@ -37,9 +37,14 @@
     --neutralLighter: var(--non-photo-blue);
 }
 
+.App,
+body {
+    background-color: var(--neutral);
+
+}
+
 .App {
     min-height: 100%;
-    background-color: var(--neutral);
 }
 
 @media only screen and (min-width:450px) {

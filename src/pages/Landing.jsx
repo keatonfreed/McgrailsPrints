@@ -9,16 +9,15 @@ function Landing() {
     // const apiKey = https://openapi.etsy.com/v2/listings/active?api_key=prj207rtzok77jrk84zfv90f
 
     // const scrollHeight = useScrollPosition()
-    let root = document.querySelector("#root")
     const parallaxRef = useRef()
 
     useEffect(() => {
-        const paraHandler = () => { parallaxRef.current.style.transform = `translateY(${root.scrollTop / 2}px)` }
-        root.addEventListener('scroll', paraHandler)
+        const paraHandler = () => { parallaxRef.current.style.transform = `translateY(${document.body.scrollTop / 2}px)` }
+        document.body.addEventListener('scroll', paraHandler)
         return () => {
-            root.removeEventListener('scroll', paraHandler)
+            document.body.removeEventListener('scroll', paraHandler)
         }
-    }, [root])
+    }, [])
 
     const [listings, setListings] = useState([]);
 
