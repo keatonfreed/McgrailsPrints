@@ -1,0 +1,14 @@
+.Header {
+    width: 100%;
+    display: flex;
+    padding: 10px 50px;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(1px);
+    position: absolute;
+    top: 0px;
+    z-index: 10;
+    height: 15%;
+    /* position: fixed;
+    top: 0;
+    z-index: 10; */
+}

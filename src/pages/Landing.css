@@ -16,10 +16,11 @@
     position: relative;
 
     margin-bottom: calc(var(--main-banner-border) + 10px);
+    transition: transform 0.5s ease-out;
 }
 
 
-.Landing .MainBanner .MainBannerImg {
+.Landing .MainBanner .MainBannerParallaxDiv {
     clip-path: polygon(0 0,
             100% 0,
             100% calc(101% - var(--main-banner-border)),

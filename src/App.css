@@ -40,7 +40,11 @@
 .App,
 body {
     background-color: var(--neutral);
+}
 
+body {
+    /* background-color: black; */
+    overscroll-behavior-y: none;
 }
 
 .App {

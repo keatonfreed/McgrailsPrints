@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import "pages/Landing.css"
-import banner from "assets/mainbanner.png"
+import banner from "assets/mainbanner.jpg"
 import Listing from 'components/Listing'
+import Header from 'components/Header'
 
 
 function Landing() {
@@ -11,13 +12,36 @@ function Landing() {
     // const scrollHeight = useScrollPosition()
     const parallaxRef = useRef()
 
+
     useEffect(() => {
-        const paraHandler = () => { parallaxRef.current.style.transform = `translateY(${document.body.scrollTop / 2}px)` }
-        document.body.addEventListener('scroll', paraHandler)
+        const paraHandler = () => {
+            requestAnimationFrame(() => {
+                if (parallaxRef.current) {
+                    // console.log("update")
+                    parallaxRef.current.style.transform = `translateY(${document.body.scrollTop / 2}px)`;
+                }
+            });
+        };
+
+        // const throttledHandler = throttle(paraHandler, 10); // Throttle the event to run every 10ms
+        document.body.addEventListener('scroll', paraHandler);
+
         return () => {
-            document.body.removeEventListener('scroll', paraHandler)
-        }
+            document.body.removeEventListener('scroll', paraHandler);
+        };
     }, [])
+
+    // function throttle(fn, wait) {
+    //     let lastTime = 0;
+    //     return function (...args) {
+    //         const now = new Date();
+    //         if (now - lastTime >= wait) {
+    //             // console.log("run", now, lastTime, now - lastTime, wait)
+    //             fn(...args);
+    //             lastTime = now;
+    //         }
+    //     };
+    // }
 
     const [listings, setListings] = useState([]);
 
@@ -39,7 +63,13 @@ function Landing() {
     return (
         <div className='Landing'>
             <div className="MainBanner">
-                <div className="MainBannerImg"><img src={banner} alt="Banner" ref={parallaxRef} /></div>
+                <div className="MainBannerParallaxDiv">
+                    <div className="MainBannerParallax" ref={parallaxRef} style={{ transition: 'transform 20ms ease-out' }}>
+                        <Header></Header>
+                        <img src={banner} alt="Banner" />
+                    </div>
+                </div>
+
                 <div className='MainBannerBorder'></div>
             </div>
             <div className='Listings'>
