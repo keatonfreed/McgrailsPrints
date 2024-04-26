@@ -17,6 +17,8 @@
 
     margin-bottom: calc(var(--main-banner-border) + 10px);
     transition: transform 0.5s ease-out;
+
+    background-color: hsl(0, 0%, 10%)
 }
 
 
@@ -36,7 +38,11 @@
             0 calc(101% - var(--main-banner-border)));
 }
 
-.Landing .MainBanner img {
+.Landing .MainBanner .MainBannerParallax {
+    will-change: transform;
+}
+
+.Landing .MainBanner .MainBannerParallax>img {
     min-width: 785px;
     width: 100%;
     display: block;
