@@ -63,10 +63,10 @@ function Landing() {
     return (
         <div className='Landing'>
             <div className="MainBanner">
-                <div className="MainBannerParallaxDiv">
+                <div className="MainBannerParallaxWrap">
                     <div className="MainBannerParallax" ref={parallaxRef} style={{ transition: 'transform 20ms ease-out' }}>
                         <Header></Header>
-                        <img src={banner} alt="Banner" />
+                        <div className="MainBannerImageWrap"><img src={banner} alt="Banner" /></div>
                     </div>
                 </div>
 

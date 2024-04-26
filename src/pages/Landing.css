@@ -22,7 +22,7 @@
 }
 
 
-.Landing .MainBanner .MainBannerParallaxDiv {
+.Landing .MainBanner .MainBannerParallaxWrap {
     clip-path: polygon(0 0,
             100% 0,
             100% calc(101% - var(--main-banner-border)),
@@ -42,9 +42,18 @@
     will-change: transform;
 }
 
-.Landing .MainBanner .MainBannerParallax>img {
+.Landing .MainBanner .MainBannerImageWrap {
+    max-width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+
+}
+
+.Landing .MainBanner .MainBannerImageWrap img {
     min-width: 785px;
-    width: 100%;
+    width: 100vw;
     display: block;
     position: relative;
     top: 0px;

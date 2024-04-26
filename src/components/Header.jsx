@@ -8,7 +8,7 @@ function Header() {
     return (
         <div className='Header'>
             <div className="HeaderLeft">
-                <h1>McGrails 3D Prints</h1>
+                {/* <h1></h1> */}
             </div>
             <div className="HeaderRight">
                 <a href="https://www.instagram.com/mcgrails3dprints" target='_blank' rel="noreferrer"><img src={InstagramIcon} alt="Instagram" /></a>
