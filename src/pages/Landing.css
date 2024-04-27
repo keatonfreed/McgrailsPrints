@@ -47,7 +47,7 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    padding-top: 50px;
+    /* padding-top: 50px; */
 
 }
 
@@ -55,8 +55,8 @@
     min-width: 785px;
     width: 100vw;
     display: block;
-    position: relative;
-    top: 0px;
+    /* position: relative;
+    top: 0px; */
 }
 
 .Landing .MainBanner .MainBannerBorder {

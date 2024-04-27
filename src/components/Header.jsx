@@ -9,6 +9,7 @@ function Header() {
         <div className='Header'>
             <div className="HeaderLeft">
                 {/* <h1></h1> */}
+                <a href="mailto: mcgrails3dprints@gmail.com">mcgrails3dprints@gmail.com</a>
             </div>
             <div className="HeaderRight">
                 <a href="https://www.instagram.com/mcgrails3dprints" target='_blank' rel="noreferrer"><img src={InstagramIcon} alt="Instagram" /></a>
