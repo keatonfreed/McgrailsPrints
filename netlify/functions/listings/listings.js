@@ -1,6 +1,6 @@
 // Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
 
-import fetch from 'node-fetch';
+const axios = require('axios')
 
 
 function sendSuccess(message) {
@@ -25,7 +25,7 @@ const handler = async (event) => {
       return sendError("API Error")
     }
 
-    fetch("https://openapi.etsy.com/v3/application/shops/46422638/listings/active", {
+    axios.get("https://openapi.etsy.com/v3/application/shops/46422638/listings/active", {
       headers: {
         "x-api-key": apiKey
       },
