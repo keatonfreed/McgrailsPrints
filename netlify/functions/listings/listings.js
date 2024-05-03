@@ -25,28 +25,25 @@ const handler = async (event) => {
       return sendError("API Error")
     }
 
-    axios.get("https://openapi.etsy.com/v3/application/shops/46422638/listings/active", {
+    console.log("Function init, running...")
+    let { data } = await axios.get("https://openapi.etsy.com/v3/application/shops/46422638/listings/active", {
       headers: {
         "x-api-key": apiKey
       },
       method: 'GET'
-    }).then(resp => {
-      console.log("Got Etsy listings API response.")
-
-      let results = resp.data.results
-      console.log("Got function init, fetch finished", results.length)
-      let filtered = results.map(({ title, description, id, url, featured_rank, price }) => {
-        let priceNum = price.amount / price.divisor
-        return {
-          id, title, description, url, rank: featured_rank, price: priceNum
-        }
-      })
-      console.log("Function Success, sending:", filtered.length)
-      return sendSuccess(filtered)
-    }).catch((err) => {
-      console.log("API Error:", err)
-      return sendError("API Error")
     })
+    console.log("Got Etsy listings API response.")
+
+    let results = data.results
+    console.log("Got function init, fetch finished", results.length)
+    let filtered = results.map(({ title, description, id, url, featured_rank, price }) => {
+      let priceNum = price.amount / price.divisor
+      return {
+        id, title, description, url, rank: featured_rank, price: priceNum
+      }
+    })
+    console.log("Function Success, sending:", filtered.length)
+    return sendSuccess(filtered)
   } catch (error) {
     console.log("Runtime Error:", error)
     return sendError("Server Error")
