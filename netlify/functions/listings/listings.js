@@ -30,10 +30,11 @@ const handler = async (event) => {
         "x-api-key": apiKey
       },
       method: 'GET'
-    }).then(resp => resp.json()).then((resp) => {
+    }).then(resp => {
       console.log("Got Etsy listings API response.")
 
-      let results = resp.results
+      let results = resp.data.results
+      console.log("Got function init, fetch finished", results.length)
       let filtered = results.map(({ title, description, id, url, featured_rank, price }) => {
         let priceNum = price.amount / price.divisor
         return {
