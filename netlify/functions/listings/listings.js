@@ -32,10 +32,9 @@ const handler = async (event) => {
       },
       method: 'GET'
     })
-    console.log("Got Etsy listings API response.")
 
     let results = data.results
-    console.log("Got function init, fetch finished", results.length)
+    console.log("Got Etsy listings API response:", results.length)
     let filtered = results.map(({ title, description, id, url, featured_rank, price }) => {
       let priceNum = price.amount / price.divisor
       return {
@@ -50,4 +49,8 @@ const handler = async (event) => {
   }
 }
 
-module.exports = { handler }
+const config = {
+  path: "/api/listings"
+};
+
+module.exports = { handler, config }
