@@ -49,8 +49,8 @@ const handler = async (event) => {
   }
 }
 
-const config = {
+export const config = {
   path: "/api/listings"
 };
 
-module.exports = { handler, config }
+module.exports = { handler }
