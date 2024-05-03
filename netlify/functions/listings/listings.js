@@ -1,5 +1,8 @@
 // Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
 
+const fetch = require('node-fetch')
+
+
 function sendSuccess(message) {
   return {
     statusCode: 200,
@@ -25,7 +28,8 @@ const handler = async (event) => {
     fetch("https://openapi.etsy.com/v3/application/shops/46422638/listings/active", {
       headers: {
         "x-api-key": apiKey
-      }
+      },
+      method: 'GET'
     }).then(resp => resp.json()).then((resp) => {
       console.log("Got Etsy listings API response.")
 
@@ -36,6 +40,7 @@ const handler = async (event) => {
           id, title, description, url, rank: featured_rank, price: priceNum
         }
       })
+      console.log("Function Success, sending:", filtered.length)
       return sendSuccess(filtered)
     }).catch((err) => {
       console.log("API Error:", err)
