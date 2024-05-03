@@ -2,7 +2,7 @@
 const handler = async (event) => {
   try {
     const subject = event.queryStringParameters.name || 'World'
-    const apiKey = process.env.get("ETSY_API_KEY")
+    const apiKey = process.env.ETSY_API_KEY
     console.log("KEY", apiKey.slice(1, 6))
 
     return {
