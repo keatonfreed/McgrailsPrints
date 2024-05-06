@@ -7,12 +7,14 @@ function sendSuccess(message) {
   return {
     statusCode: 200,
     body: JSON.stringify({ output: message }),
+    "Access-Control-Allow-Origin": "*",
   }
 }
 function sendError(message) {
   return {
     statusCode: 500,
     body: JSON.stringify({ error: message }),
+    "Access-Control-Allow-Origin": "*",
   }
 }
 
