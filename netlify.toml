@@ -1,2 +1,6 @@
 [functions]
   node_bundler = "esbuild"
+
+[[redirects]]
+from = "/api/listings"
+to = "/.netlify/functions/listings"
