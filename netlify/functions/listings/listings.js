@@ -7,14 +7,22 @@ function sendSuccess(message) {
   return {
     statusCode: 200,
     body: JSON.stringify({ output: message }),
-    "Access-Control-Allow-Origin": "*",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "GET, OPTION",
+    },
   }
 }
 function sendError(message) {
   return {
     statusCode: 500,
     body: JSON.stringify({ error: message }),
-    "Access-Control-Allow-Origin": "*",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "GET, OPTION",
+    },
   }
 }
 
