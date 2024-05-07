@@ -28,7 +28,7 @@ function sendError(message) {
 
 const handler = async (event) => {
   let { data: listings, error } = await supabase
-    .from('listings')
+    .from('Listings')
     .select('*')
   console.log(listings, error)
   return sendSuccess([listings, error])
