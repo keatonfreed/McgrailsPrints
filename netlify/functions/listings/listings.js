@@ -27,11 +27,18 @@ function sendError(message) {
 
 
 const handler = async (event) => {
+  const { data: added, err } = await supabase
+    .from('Listings')
+    .insert([
+      { data: 'Inset from API DATA LALA' },
+    ])
+  console.log(added, err)
+
   let { data: listings, error } = await supabase
     .from('Listings')
     .select('*')
   console.log(listings, error)
-  return sendSuccess([listings, error])
+  return sendSuccess([added, err, listings, error])
 
   try {
     const apiKey = process.env.ETSY_API_KEY
