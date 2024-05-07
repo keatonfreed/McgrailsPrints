@@ -26,13 +26,21 @@ function sendError(message) {
 }
 
 
+
+
 const handler = async (event) => {
-  const { data: added, err } = await supabase
+  const { error: delError } = await supabase
+    .from('Listings')
+    .delete()
+  if (delError) return console.log("Delete Error:", delError)
+
+  const { data: added, insError } = await supabase
     .from('Listings')
     .insert([
       { data: 'Inset from API DATA LALA' },
     ])
-  console.log(added, err)
+  if (insError) return console.log("Delete Error:", delError)
+
 
   let { data: listings, error } = await supabase
     .from('Listings')
