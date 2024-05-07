@@ -46,20 +46,19 @@ function Landing() {
     const [listings, setListings] = useState([]);
 
     useEffect(() => {
-        fetch('http://mcgrails3dprints.com/api/listings')
+        // fetch('https://mcgrails3dprints.com/api/listings')
+        fetch('/testlistings.json')
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setListings(data);  // Update the state with the fetched listings data
+                if (data.error) throw new Error("Error from API", data.error)
+                setListings(data.output);
             })
             .catch(error => {
                 console.error('Error fetching listings:', error);
             });
+    }, []);
 
-        // No cleanup necessary, so no return statement is needed here
-    }, []);  // Empty dependency array ensures this effect runs only once on mount
-
-    // const listings = ["Darth Vader", "Luke Skywalker", "Thomas Jefferson", "James Madison", "John F Kennedy", "Frank Johnson", "Bobby Joe", "John Smith", "Jacob Junior", "Keaton Freed"]
     return (
         <div className='Landing'>
             <div className="MainBanner">
@@ -74,7 +73,7 @@ function Landing() {
             </div>
             <div className='Listings'>
                 {listings.length ? listings.map(listing =>
-                    <Listing listing={listing} key={listing.etsy_url} />
+                    <Listing listing={listing} key={listing.url} />
                 ) : Array(6).fill({}).map((placeholder, index) =>
                     <Listing listing={placeholder} key={index} />
                 )}

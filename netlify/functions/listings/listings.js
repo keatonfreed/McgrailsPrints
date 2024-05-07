@@ -1,4 +1,13 @@
-// Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
+
+require('dotenv').config();
+const {
+  DATABASE_URL,
+  SUPABASE_SERVICE_API_KEY
+} = process.env;
+
+// Connect to our database 
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(DATABASE_URL, SUPABASE_SERVICE_API_KEY);
 
 const axios = require('axios')
 
@@ -6,28 +15,24 @@ const axios = require('axios')
 function sendSuccess(message) {
   return {
     statusCode: 200,
-    body: JSON.stringify({ output: message }),
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "GET, OPTION",
-    },
+    body: JSON.stringify({ output: message })
   }
 }
 function sendError(message) {
   return {
     statusCode: 500,
-    body: JSON.stringify({ error: message }),
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "GET, OPTION",
-    },
+    body: JSON.stringify({ error: message })
   }
 }
 
 
 const handler = async (event) => {
+  let { data: listings, error } = await supabase
+    .from('listings')
+    .select('*')
+  console.log(listings, error)
+  return sendSuccess([listings, error])
+
   try {
     const apiKey = process.env.ETSY_API_KEY
     if (!apiKey) {

@@ -2,8 +2,6 @@ import React from 'react'
 import "components/Listing.css"
 
 function Listing({ listing }) {
-
-
     return (
         <div className='Listing' style={{ backgroundImage: `url(${listing.image_url})` }}>
             <div className='ListingDetails'>
