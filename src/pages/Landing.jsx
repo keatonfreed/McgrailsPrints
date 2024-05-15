@@ -46,8 +46,8 @@ function Landing() {
     const [listings, setListings] = useState([]);
 
     useEffect(() => {
-        // fetch('https://mcgrails3dprints.com/api/listings')
-        fetch('/testlistings.json')
+        fetch('https://mcgrails3dprints.com/api/listings')
+            // fetch('/testlistings.json')
             .then(response => response.json())
             .then(data => {
                 console.log(data)
