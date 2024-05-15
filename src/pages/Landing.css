@@ -95,17 +95,32 @@
 
 
 .Landing .Listings {
-    display: grid;
+    /* display: grid;
+    grid-template-columns: repeat(3, 1fr); */
+    /* grid-auto-rows: 10px; */
+    /* This creates a baseline for row height */
+
+    /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
+    /* Adjust the min and max values as needed */
+
+    display: flex;
+
     --listing-gap: 3vw;
     margin-top: max(calc(var(--listing-gap) - 20px), 5px);
 
     gap: var(--listing-gap);
     margin-inline: var(--listing-gap);
-    grid-template-columns: repeat(3, 1fr);
     padding-bottom: var(--listing-gap);
 }
 
-@media (max-width:812px) {
+.Landing .Listings .ListingsColumn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--listing-gap);
+}
+
+/* @media (max-width:812px) {
     .Landing .Listings {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -115,4 +130,4 @@
     .Landing .Listings {
         grid-template-columns: repeat(1, 1fr);
     }
-}
+} */

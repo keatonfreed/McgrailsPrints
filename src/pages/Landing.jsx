@@ -11,7 +11,8 @@ function Landing() {
 
     // const scrollHeight = useScrollPosition()
     const parallaxRef = useRef()
-
+    const [listings, setListings] = useState([]);
+    const [columns, setColumns] = useState(3);
 
     useEffect(() => {
         const paraHandler = () => {
@@ -31,23 +32,40 @@ function Landing() {
         };
     }, [])
 
-    // function throttle(fn, wait) {
-    //     let lastTime = 0;
-    //     return function (...args) {
-    //         const now = new Date();
-    //         if (now - lastTime >= wait) {
-    //             // console.log("run", now, lastTime, now - lastTime, wait)
-    //             fn(...args);
-    //             lastTime = now;
-    //         }
-    //     };
-    // }
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 450) {
+                setColumns(1);
+            } else if (window.innerWidth <= 812) {
+                setColumns(2);
+            } else {
+                setColumns(3);
+            }
+        };
 
-    const [listings, setListings] = useState([]);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    const distributeListingsIntoColumns = (listings, columns) => {
+        const columnsArray = Array.from({ length: columns }, () => []);
+        listings.forEach((listing, index) => {
+            columnsArray[index % columns].push(listing);
+        });
+        return columnsArray;
+    };
+
+    const columnsArray = distributeListingsIntoColumns(listings.length ? listings : Array(6).fill({}), columns);
+
 
     useEffect(() => {
         fetch('https://mcgrails3dprints.com/api/listings')
             // fetch('/testlistings.json')
+
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -72,11 +90,13 @@ function Landing() {
                 <div className='MainBannerBorder'></div>
             </div>
             <div className='Listings'>
-                {listings.length ? listings.map(listing =>
-                    <Listing listing={listing} key={listing.url} />
-                ) : Array(6).fill({}).map((placeholder, index) =>
-                    <Listing listing={placeholder} key={index} />
-                )}
+                {columnsArray.map((column, columnIndex) => (
+                    <div className='ListingsColumn' key={`column-${columnIndex}`}>
+                        {column.map((listing, index) => (
+                            <Listing listing={listing} key={listing.url || `col${columnIndex}-${index}`} />
+                        ))}
+                    </div>
+                ))}
             </div>
         </div>
     )

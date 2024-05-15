@@ -1,14 +1,19 @@
 import React from 'react'
 import "components/Listing.css"
+import he from 'he';
+
 
 function Listing({ listing }) {
-    return (
-        <div className='Listing' style={{ backgroundImage: `url(${listing?.image?.[0]?.["url_fullxfull"]})` }}>
-            <div className='ListingDetails'>
-                <h1 className='ListingTitle'>{listing.title}</h1>
-                <h1 className='ListingPrice'>{listing.price}</h1>
-            </div>
+    const decodedTitle = he.decode(listing.title);
 
+    return (
+        <div className='Listing'>
+            <img src={listing?.image?.[0]?.["url_fullxfull"] || "https://blank"} alt="Listing Display" srcset="" />
+            <div className='ListingDetails'>
+                <h1 className='ListingTitle'>{decodedTitle}</h1>
+                <h1 className='ListingPrice'>${listing.price}</h1>
+            </div>
+            <div className="ListingBorder"></div>
         </div>
     )
 }
