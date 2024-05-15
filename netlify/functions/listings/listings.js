@@ -63,49 +63,67 @@ const handler = async (event) => {
       method: 'GET'
     })
 
-    let results = etsyData.results
-    let listingIds = []
+
+    let results = etsyData.results;
+    let listingIds = [];
     let filtered = results.map(({ title, description, id, url, featured_rank, price }) => {
-      let priceNum = price.amount / price.divisor
-      listingIds.push(id)
+      let priceNum = price.amount / price.divisor;
+      listingIds.push(id);
       return {
         id, title, description, url, rank: featured_rank, price: priceNum
-      }
-    })
-    console.log("Got Etsy listings API response:", filtered.length)
+      };
+    });
+    console.log("Got Etsy listings API response:", filtered.length);
 
-    const { data: imgSelectData, error: imgSelectError } = await supabase.from("Listings")
-      .select("listing_id,data")
-      .in("listing_id", listingIds)
-    if (imgSelectError) return console.log("Select Error:", imgSelectError)
-    console.log("selected all imgs from id's", imgSelectData)
-    let listingsNotFound = [...listingIds]
+    const { data: imgSelectData, error: imgSelectError } = await supabase
+      .from("Listings")
+      .select("listing_id, data")
+      .in("listing_id", listingIds);
+
+    if (imgSelectError) {
+      return console.log("Select Error:", imgSelectError);
+    }
+    console.log("Selected all images from IDs", imgSelectData);
+
+    let listingsNotFound = [...listingIds];
     imgSelectData.forEach(({ listing_id, data }) => {
-      delete listingsNotFound[listingsNotFound.findIndex(listing_id)]
-      // filtered.find()
-    })
-    console.log("listing images not cached:", listingsNotFound)
+      listingsNotFound.splice(listingsNotFound.indexOf(listing_id), 1);
+      let listing = filtered.find(item => item.id === listing_id);
+      if (listing) {
+        listing.image = data;
+      }
+    });
+    console.log("Listing images not cached:", listingsNotFound);
+
     for (let i = 0; i < listingsNotFound.length; i++) {
       let { data: etsyImageData } = await axios.get(`https://openapi.etsy.com/v3/application/listings/${listingsNotFound[i]}/images`, {
         headers: {
           "x-api-key": apiKey
         },
         method: 'GET'
-      })
-      let etsyImageResults = etsyImageData.results
-      console.log(etsyImageResults, etsyImageResults.url_fullxfull)
+      });
+      let etsyImageResults = etsyImageData.results;
+      console.log("Fetched Etsy image data", etsyImageResults);
 
-      const { data: added, insError } = await supabase
+      const { data: added, error: insError } = await supabase
         .from('Listings')
         .insert([
-          { listing_id: listingsNotFound[i], data: etsyImageResults },
-        ])
-      if (insError) return console.log("Insert Error:", insError)
-      await new Promise((res) => { setTimeout(res, 500) })
+          { listing_id: listingsNotFound[i], data: etsyImageResults }
+        ]);
+      if (insError) {
+        return console.log("Insert Error:", insError);
+      }
+
+      let listing = filtered.find(item => item.id === listingsNotFound[i]);
+      if (listing) {
+        listing.image = etsyImageResults;
+      }
+
+      await new Promise(res => setTimeout(res, 200));
     }
 
-    console.log("Function Success, sending:", filtered.length)
-    return sendSuccess(filtered)
+    console.log("Function Success, sending:", filtered.length);
+    return sendSuccess(filtered);
   } catch (error) {
     console.log("Runtime Error:", error)
     return sendError("Server Error")
