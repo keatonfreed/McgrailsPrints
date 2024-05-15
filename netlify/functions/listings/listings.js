@@ -72,7 +72,7 @@ const handler = async (event) => {
         id, title, description, url, rank: featured_rank, price: priceNum
       };
     });
-    console.log("Got Etsy listings API response:", filtered.length, listingIds);
+    console.log("Got Etsy listings API response:", filtered.length);
 
     const { data: imgSelectData, error: imgSelectError } = await supabase
       .from("Listings")
@@ -82,7 +82,7 @@ const handler = async (event) => {
     if (imgSelectError) {
       return console.log("Select Error:", imgSelectError);
     }
-    console.log("Selected all images from IDs", imgSelectData);
+    console.log("Selected all images from IDs", imgSelectData.length);
 
     let listingsNotFound = [...listingIds];
     const TEN_DAYS_IN_MS = 10 * 24 * 60 * 60 * 1000;
