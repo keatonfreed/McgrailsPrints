@@ -73,17 +73,18 @@ const handler = async (event) => {
         id, title, description, url, rank: featured_rank, price: priceNum
       };
     });
-    console.log("Got Etsy listings API response:", filtered.length);
+    console.log("Got Etsy listings API response:", filtered.length, listingIds);
 
     const { data: imgSelectData, error: imgSelectError } = await supabase
       .from("Listings")
       .select("listing_id, data")
-      .in("listing_id", listingIds);
+    // .in("listing_id", listingIds);
 
     if (imgSelectError) {
       return console.log("Select Error:", imgSelectError);
     }
     console.log("Selected all images from IDs", imgSelectData);
+    return
 
     let listingsNotFound = [...listingIds];
     imgSelectData.forEach(({ listing_id, data }) => {
