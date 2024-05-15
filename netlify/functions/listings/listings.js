@@ -49,20 +49,19 @@ const handler = async (event) => {
   // return sendSuccess([added, err, listings, error])
 
   try {
-    const apiKey = process.env.ETSY_API_KEY
+    const apiKey = process.env.ETSY_API_KEY;
     if (!apiKey) {
-      console.log("API Key not loaded properly:", apiKey)
-      return sendError("API Error")
+      console.log("API Key not loaded properly:", apiKey);
+      return sendError("API Error");
     }
 
-    console.log("Function init, fetching listings...")
+    console.log("Function init, fetching listings...");
     let { data: etsyData } = await axios.get("https://openapi.etsy.com/v3/application/shops/46422638/listings/active", {
       headers: {
         "x-api-key": apiKey
       },
       method: 'GET'
-    })
-
+    });
 
     let results = etsyData.results;
     let listingIds = [];
@@ -77,7 +76,7 @@ const handler = async (event) => {
 
     const { data: imgSelectData, error: imgSelectError } = await supabase
       .from("Listings")
-      .select("listing_id, data")
+      .select("listing_id, data, created_at")
       .in("listing_id", listingIds);
 
     if (imgSelectError) {
@@ -86,35 +85,45 @@ const handler = async (event) => {
     console.log("Selected all images from IDs", imgSelectData);
 
     let listingsNotFound = [...listingIds];
-    imgSelectData.forEach(({ listing_id, data }) => {
-      listingsNotFound.splice(listingsNotFound.indexOf(listing_id), 1);
-      let listing = filtered.find(item => item.id === listing_id);
-      if (listing) {
-        listing.image = data;
+    const TEN_DAYS_IN_MS = 10 * 24 * 60 * 60 * 1000;
+    let now = Date.now();
+
+    imgSelectData.forEach(({ listing_id, data, created_at }) => {
+      let createdAt = new Date(created_at).getTime();
+      if (now - createdAt <= TEN_DAYS_IN_MS) {
+        listingsNotFound.splice(listingsNotFound.indexOf(listing_id), 1);
+        let listing = filtered.find(item => item.id === listing_id);
+        if (listing) {
+          listing.image = data;
+        }
       }
     });
-    console.log("Listing images not cached:", listingsNotFound);
+    console.log("Listing images not cached or outdated:", listingsNotFound.length);
 
-    for (let i = 0; i < listingsNotFound.length; i++) {
-      let { data: etsyImageData } = await axios.get(`https://openapi.etsy.com/v3/application/listings/${listingsNotFound[i]}/images`, {
+    // Limit the number of uncached/outdated listings to be processed
+    const MAX_INVALIDATED = 20;
+    let toProcess = listingsNotFound.slice(0, MAX_INVALIDATED);
+
+    for (let i = 0; i < toProcess.length; i++) {
+      let { data: etsyImageData } = await axios.get(`https://openapi.etsy.com/v3/application/listings/${toProcess[i]}/images`, {
         headers: {
           "x-api-key": apiKey
         },
         method: 'GET'
       });
       let etsyImageResults = etsyImageData.results;
-      console.log("Fetched Etsy image data", etsyImageResults);
+      console.log("Fetched Etsy image data", etsyImageResults.length);
 
       const { data: added, error: insError } = await supabase
         .from('Listings')
         .insert([
-          { listing_id: listingsNotFound[i], data: etsyImageResults }
+          { listing_id: toProcess[i], data: etsyImageResults }
         ]);
       if (insError) {
         return console.log("Insert Error:", insError);
       }
 
-      let listing = filtered.find(item => item.id === listingsNotFound[i]);
+      let listing = filtered.find(item => item.id === toProcess[i]);
       if (listing) {
         listing.image = etsyImageResults;
       }
