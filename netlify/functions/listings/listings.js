@@ -66,7 +66,7 @@ const handler = async (event) => {
 
     let results = etsyData.results;
     let listingIds = [];
-    let filtered = results.map(({ title, description, id, url, featured_rank, price }) => {
+    let filtered = results.map(({ title, description, listing_id: id, url, featured_rank, price }) => {
       let priceNum = price.amount / price.divisor;
       listingIds.push(id);
       return {
@@ -78,13 +78,12 @@ const handler = async (event) => {
     const { data: imgSelectData, error: imgSelectError } = await supabase
       .from("Listings")
       .select("listing_id, data")
-    // .in("listing_id", listingIds);
+      .in("listing_id", listingIds);
 
     if (imgSelectError) {
       return console.log("Select Error:", imgSelectError);
     }
     console.log("Selected all images from IDs", imgSelectData);
-    return
 
     let listingsNotFound = [...listingIds];
     imgSelectData.forEach(({ listing_id, data }) => {
