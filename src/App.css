@@ -49,6 +49,7 @@ body {
 
 .App {
     min-height: 100%;
+    padding-bottom: 20vh;
 }
 
 @media only screen and (min-width:450px) {

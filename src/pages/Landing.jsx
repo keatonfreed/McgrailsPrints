@@ -91,7 +91,6 @@ function Landing() {
 
     useEffect(() => {
         fetch('https://mcgrails3dprints.com/api/listings')
-
             // fetch('/testlistings.json')
             .then(response => response.json())
             .then(data => {
