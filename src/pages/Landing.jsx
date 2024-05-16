@@ -1,18 +1,46 @@
 import React, { useEffect, useState, useRef } from 'react'
 import "pages/Landing.css"
 import banner from "assets/mainbanner.jpg"
+// import banner from "assets/mainbanner_copy.jpg"
 import Listing from 'components/Listing'
 import Header from 'components/Header'
 
-
 function Landing() {
-
-    // const apiKey = https://openapi.etsy.com/v2/listings/active?api_key=prj207rtzok77jrk84zfv90f
-
-    // const scrollHeight = useScrollPosition()
-    const parallaxRef = useRef()
+    const parallaxRef = useRef();
     const [listings, setListings] = useState([]);
     const [columns, setColumns] = useState(3);
+    // const [scrollY, setScrollY] = useState(0);
+    // const [targetScrollY, setTargetScrollY] = useState(0);
+
+    // useEffect(() => {
+    //     const updateScrollPosition = () => {
+    //         const newScrollY = document.body.scrollTop || document.documentElement.scrollTop;
+    //         setTargetScrollY(newScrollY / 2);
+    //     };
+
+    //     const interpolateScroll = () => {
+    //         setScrollY((prevScrollY) => {
+    //             const delta = targetScrollY - prevScrollY;
+    //             const smoothingFactor = Math.abs(delta) > 5 ? 0.3 : 1; // Smooth if delta is large, otherwise stay in sync
+    //             // const smoothingFactor = 1; // Smooth if delta is large, otherwise stay in sync
+
+    //             return prevScrollY + delta * smoothingFactor;
+    //         });
+
+    //         if (parallaxRef.current) {
+    //             parallaxRef.current.style.transform = `translateY(${scrollY}px)`;
+    //         }
+
+    //         requestAnimationFrame(interpolateScroll);
+    //     };
+
+    //     document.body.addEventListener('scroll', updateScrollPosition);
+    //     requestAnimationFrame(interpolateScroll);
+
+    //     return () => {
+    //         document.body.removeEventListener('scroll', updateScrollPosition);
+    //     };
+    // }, [targetScrollY, scrollY]);
 
     useEffect(() => {
         const paraHandler = () => {
@@ -61,15 +89,14 @@ function Landing() {
 
     const columnsArray = distributeListingsIntoColumns(listings.length ? listings : Array(6).fill({}), columns);
 
-
     useEffect(() => {
         fetch('https://mcgrails3dprints.com/api/listings')
-        // fetch('/testlistings.json')
 
+            // fetch('/testlistings.json')
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                if (data.error) throw new Error("Error from API", data.error)
+                console.log(data);
+                if (data.error) throw new Error("Error from API", data.error);
                 setListings(data.output);
             })
             .catch(error => {
@@ -81,12 +108,12 @@ function Landing() {
         <div className='Landing'>
             <div className="MainBanner">
                 <div className="MainBannerParallaxWrap">
-                    <div className="MainBannerParallax" ref={parallaxRef} style={{ transition: 'transform 20ms ease-out' }}>
-                        <Header></Header>
+                    <div className="MainBannerParallax" ref={parallaxRef} >
+                        {/* <div className="MainBannerParallax" ref={parallaxRef} style={{ transition: 'transform 20ms ease-out' }}> */}
+                        <Header />
                         <div className="MainBannerImageWrap"><img src={banner} alt="Banner" /></div>
                     </div>
                 </div>
-
                 <div className='MainBannerBorder'></div>
             </div>
             <div className='Listings'>
@@ -99,11 +126,7 @@ function Landing() {
                 ))}
             </div>
         </div>
-    )
+    );
 }
 
-// 130.211.40.170
-// mcgrails3dprints.com.
-// mcgrails3dprints.patternbyetsy.com
-
-export default Landing
+export default Landing;

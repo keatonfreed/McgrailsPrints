@@ -18,7 +18,7 @@
     margin-bottom: calc(var(--main-banner-border) + 10px);
     transition: transform 0.5s ease-out;
 
-    background-color: hsl(0, 0%, 10%)
+    background-color: hsl(0, 0%, 0%)
 }
 
 
@@ -38,9 +38,6 @@
             0 calc(101% - var(--main-banner-border)));
 }
 
-.Landing .MainBanner .MainBannerParallax {
-    will-change: transform;
-}
 
 .Landing .MainBanner .MainBannerImageWrap {
     max-width: 100vw;
