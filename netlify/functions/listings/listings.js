@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const {
   DATABASE_URL,
@@ -10,7 +9,6 @@ const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(DATABASE_URL, SUPABASE_SERVICE_API_KEY);
 
 const axios = require('axios')
-
 
 function sendSuccess(message) {
   return {
@@ -24,9 +22,6 @@ function sendError(message) {
     body: JSON.stringify({ error: message })
   }
 }
-
-
-
 
 const handler = async (event) => {
   // const { error: delError } = await supabase
@@ -101,7 +96,7 @@ const handler = async (event) => {
     console.log("Listing images not cached or outdated:", listingsNotFound.length);
 
     // Limit the number of uncached/outdated listings to be processed
-    const MAX_INVALIDATED = 20;
+    const MAX_INVALIDATED = 10;
     let toProcess = listingsNotFound.slice(0, MAX_INVALIDATED);
 
     for (let i = 0; i < toProcess.length; i++) {
@@ -116,7 +111,7 @@ const handler = async (event) => {
 
       const { data: added, error: insError } = await supabase
         .from('Listings')
-        .insert([
+        .upsert([
           { listing_id: toProcess[i], data: etsyImageResults }
         ]);
       if (insError) {
@@ -138,9 +133,5 @@ const handler = async (event) => {
     return sendError("Server Error")
   }
 }
-
-// export const config = {
-//   path: "/api/listings"
-// };
 
 module.exports = { handler }
