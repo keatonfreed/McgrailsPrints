@@ -51,7 +51,7 @@ const handler = async (event) => {
     }
 
     console.log("Function init, fetching listings...");
-    let { data: etsyData } = await axios.get("https://openapi.etsy.com/v3/application/shops/46422638/listings/active", {
+    let { data: etsyData } = await axios.get("https://openapi.etsy.com/v3/application/shops/46422638/listings/active?limit=100", {
       headers: {
         "x-api-key": apiKey
       },
