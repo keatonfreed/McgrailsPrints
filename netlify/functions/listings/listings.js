@@ -71,7 +71,7 @@ const handler = async (event) => {
 
     const { data: imgSelectData, error: imgSelectError } = await supabase
       .from("Listings")
-      .select("listing_id, data, created_at")
+      .select("listing_id, data, updated_at")
       .in("listing_id", listingIds);
 
     if (imgSelectError) {
@@ -83,8 +83,8 @@ const handler = async (event) => {
     const TEN_DAYS_IN_MS = 10 * 24 * 60 * 60 * 1000;
     let now = Date.now();
 
-    imgSelectData.forEach(({ listing_id, data, created_at }) => {
-      let createdAt = new Date(created_at).getTime();
+    imgSelectData.forEach(({ listing_id, data, updated_at }) => {
+      let createdAt = new Date(updated_at).getTime();
       if (now - createdAt <= TEN_DAYS_IN_MS) {
         listingsNotFound.splice(listingsNotFound.indexOf(listing_id), 1);
         let listing = filtered.find(item => item.id === listing_id);
@@ -112,7 +112,7 @@ const handler = async (event) => {
       const { data: added, error: insError } = await supabase
         .from('Listings')
         .upsert([
-          { listing_id: toProcess[i], data: etsyImageResults }
+          { listing_id: toProcess[i], updated_at: new Date().toISOString(), data: etsyImageResults }
         ]);
       if (insError) {
         return console.log("Insert Error:", insError);
